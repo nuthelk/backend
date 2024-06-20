@@ -34,7 +34,7 @@ app.post(
   "/upload",
   upload.single("file"),
   async (
-    req: { file: any },
+    req: any,
     res: {
       status: (arg0: number) => {
         (): any;
