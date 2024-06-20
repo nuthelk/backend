@@ -7,7 +7,7 @@ import admin from "firebase-admin";
 import cors from "cors";
 
 const app = express();
-const port = 3000;
+const port = 4500;
 app.use(cors());
 
 app.use(
