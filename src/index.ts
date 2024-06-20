@@ -1,9 +1,9 @@
-import multer from "multer";
-import path from "path";
-import fs from "fs";
-import unzipper from "unzipper";
-import admin from "firebase-admin";
-import cors from "cors";
+const multer = require("multer");
+const admin = require("firebase-admin");
+const unzipper = require("unzipper");
+const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
 
 const express = require("express");
 const app = express();
@@ -56,14 +56,14 @@ app.post(
 
     // Descomprimir el archivo y subir los archivos descomprimidos a Firebase Storage
     const zipFile = await unzipper.Open.buffer(file.buffer);
-    const files = zipFile.files.map((file) => file.path);
+    const files = zipFile.files.map((file: { path: any }) => file.path);
 
     const batch = db.batch();
 
     for (const filePath of files) {
       const fileName = path.basename(filePath);
       const fileContent = await zipFile.files
-        .find((f) => f.path === filePath)
+        .find((f: { path: any }) => f.path === filePath)
         ?.buffer();
       if (fileContent) {
         const fileRef = bucket.file(fileName);
@@ -80,17 +80,11 @@ app.post(
 );
 
 // Endpoint para listar archivos
-app.get(
-  "/files",
-  async (
-    _req: any,
-    res: { send: (arg0: admin.firestore.DocumentData[]) => void }
-  ) => {
-    const snapshot = await db.collection("files").get();
-    const files = snapshot.docs.map((doc) => doc.data());
-    res.send(files);
-  }
-);
+app.get("/files", async (_req: any, res: { send: (arg0: any[]) => void }) => {
+  const snapshot = await db.collection("files").get();
+  const files = snapshot.docs.map((doc: { data: () => any }) => doc.data());
+  res.send(files);
+});
 
 // Endpoint para descargar un archivo
 app.get(
