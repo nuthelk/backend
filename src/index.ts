@@ -12,7 +12,7 @@ app.use(cors());
 
 app.use(
   cors({
-    origin: "https://pruebatecnica-8a9f9.web.app/upload",
+    origin: "https://pruebatecnica-8a9f9.web.app/",
   })
 );
 
