@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
+    "prestart": "chmod +x node_modules/.bin/ts-node",
     "start": "ts-node src/index.ts"
   },
   "keywords": [],
