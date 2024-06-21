@@ -1,20 +1,15 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
-import fs from "fs";
 import unzipper from "unzipper";
 import admin from "firebase-admin";
 import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(cors());
 
-app.use(
-  cors({
-    origin: "https://pruebatecnica-8a9f9.web.app/",
-  })
-);
+// Configuración de CORS para permitir cualquier origen
+app.use(cors());
 
 // Inicializar Firebase Admin SDK
 const serviceAccount = require("../config/serviceAccountKey.json");
@@ -35,7 +30,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     return res.status(400).send("No file uploaded.");
   }
 
-  const file = req.file!;
+  const file = req.file;
 
   // Guardar el archivo ZIP en Firebase Storage
   const zipFileRef = bucket.file(file.originalname);
