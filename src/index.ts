@@ -12,11 +12,15 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 
 // Inicializar Firebase Admin SDK
-const serviceAccount = require("../config/serviceAccountKey.json");
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  storageBucket: "pruebatecnica-8a9f9.appspot.com",
+  credential: admin.credential.cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  }),
+  storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
 });
+
 const db = admin.firestore();
 const bucket = admin.storage().bucket();
 
